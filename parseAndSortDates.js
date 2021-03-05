@@ -14,9 +14,9 @@ function parseAndSortDates(dataArray, delim = "/", isAsc = true) {
   //    3a) if the datetime value doesnt exist, remove it also, for example 2020-12-32 should return an error
 
   let newArray = [];
-  const dateRegex = /^(\d{4})(\/|-)(\d{2})(\/|-)(\d{2})$/;
+  const dateRegex = new RegExp(`([12]\\d{3}${delim}(0[1-9]|1[0-2])${delim}(0[1-9]|[12]\\d|3[01]))`)
   dataArray.forEach((date) => {
-    dateValue = dateRegex.test(date)
+    dateValue = dateRegex.test(date);
     console.log(dateValue);
   });
 
@@ -30,5 +30,4 @@ var dataArray = [
   "1990~05~28",
   "junk",
 ];
-var delim = "-";
 console.log(parseAndSortDates(dataArray));
