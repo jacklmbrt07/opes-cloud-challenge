@@ -23,14 +23,18 @@ function parseAndSortDates(dataArray, delim = "/", isAsc = true) {
   // However, the string must have a delimeter of '/' or '-' in order to work, wo we use an if/else.
   if (delim == "/" || delim == "-") {
     result = filtered.map((date) => {
-      return new Date(date);
+      // create date object
+      output = new Date(date);
+      // convert into string
+      return JSON.stringify(output);
     });
   } else {
     // we use another regex in order to replace any improper delims with '/'. The "g" (global) will replace all instances.
     let delimRegex = new RegExp(delim, "g");
     result = filtered.map((date) => {
       let newDate = date.replace(delimRegex, "/");
-      return new Date(newDate);
+      output = new Date(newDate);
+      return JSON.stringify(output);
     });
   }
 
