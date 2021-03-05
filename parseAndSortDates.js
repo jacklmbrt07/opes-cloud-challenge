@@ -34,13 +34,14 @@ function parseAndSortDates(dataArray, delim = "/", isAsc = true) {
     });
   }
 
-  // 6) Finally, we sort the result array into ascending or descending.
+  // 6) We sort the result array into ascending or descending order.
   if (isAsc) {
     result.sort((a, b) => a - b);
   } else {
     result.sort((a, b) => b - a);
   }
 
+  // 7) Finally, we return the array.
   return result;
 }
 
@@ -51,4 +52,5 @@ var dataArray = [
   "1990~05~28",
   "junk",
 ];
+
 console.log(parseAndSortDates(dataArray, "-", true));
