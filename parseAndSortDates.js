@@ -12,15 +12,36 @@ function parseAndSortDates(dataArray, delim = "/", isAsc = true) {
   // 2) if dataArray is empty, return []
   // 3) add each value from dataArray into a newArray that is in datetime format
   //    3a) if the datetime value doesnt exist, remove it also, for example 2020-12-32 should return an error
+  var result;
+  const dateRegex = new RegExp(
+    `([12]\\d{3}${delim}(0[1-9]|1[0-2])${delim}(0[1-9]|[12]\\d|3[01]))`
+  );
+  // source https://www.regextester.com/96683 but replaced '-' with a literal notation with the delim variable
 
-  let newArray = [];
-  const dateRegex = new RegExp(`([12]\\d{3}${delim}(0[1-9]|1[0-2])${delim}(0[1-9]|[12]\\d|3[01]))`)
-  dataArray.forEach((date) => {
-    dateValue = dateRegex.test(date);
-    console.log(dateValue);
-  });
+  let filtered = dataArray.filter((date) => dateRegex.test(date));
+  console.log("filtered: ", filtered);
 
-  return "Hello World";
+  if (!filtered) return [];
+
+  if (delim == "/" || delim == "-") {
+    result = filtered.map((date) => {
+      return new Date(date);
+    });
+  } else {
+    let delimRegex = new RegExp(delim, "g");
+    result = filtered.map((date) => {
+      let newDate = date.replace(delimRegex, "/");
+      return new Date(newDate);
+    });
+  }
+
+  if (isAsc) {
+    result = result.sort((a, b) => a - b);
+  } else {
+    result = result.sort((a, b) => b - a);
+  }
+
+  return result;
 }
 
 var dataArray = [
@@ -30,4 +51,4 @@ var dataArray = [
   "1990~05~28",
   "junk",
 ];
-console.log(parseAndSortDates(dataArray));
+console.log(parseAndSortDates(dataArray, "-", false));
